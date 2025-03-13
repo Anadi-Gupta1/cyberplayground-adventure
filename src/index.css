@@ -74,8 +74,12 @@
   }
   
   /* Apply cursor-pointer class to make elements show pointer on hover */
-  a, button, [role="button"], input[type="submit"], input[type="button"], .cursor-pointer {
-    @apply hover:cursor-pointer;
+  a, button, [role="button"], input[type="submit"], input[type="button"] {
+    cursor: pointer;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
   }
 }
 
