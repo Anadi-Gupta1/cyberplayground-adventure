@@ -6,6 +6,20 @@ interface ThreeDModelProps {
   url?: string;
 }
 
+declare global {
+  // This tells TypeScript that spline-viewer is a valid HTML element
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        url?: string;
+        'loading-anim'?: string;
+        'pixel-ratio'?: string;
+        'rendering-scale'?: string;
+      };
+    }
+  }
+}
+
 const ThreeDModel: React.FC<ThreeDModelProps> = ({ type, url }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);

@@ -1,6 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { cn } from "@/lib/utils";
+import ThreeDModel from '@/components/ThreeDModel';
 
 const Features = () => {
   // Animation on scroll
