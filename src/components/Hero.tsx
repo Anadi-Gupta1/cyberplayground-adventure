@@ -6,7 +6,7 @@ const Hero = () => {
   const textRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    // Simple animation for staggered text appearance
+    // Animation for staggered text appearance
     const textElements = textRef.current?.querySelectorAll('.animate-stagger');
     textElements?.forEach((el, index) => {
       setTimeout(() => {
@@ -14,16 +14,61 @@ const Hero = () => {
         el.classList.remove('opacity-0', 'translate-y-4');
       }, 200 + index * 100);
     });
+    
+    // Particle animation
+    const createParticles = () => {
+      const particleContainer = document.querySelector('.hero-particles');
+      if (!particleContainer) return;
+      
+      // Clean up any existing particles
+      particleContainer.innerHTML = '';
+      
+      // Create new particles
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random position, size, and animation duration
+        const size = Math.random() * 4 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Glow effect colors (blue, purple, cyan)
+        const colors = ['rgba(0, 144, 255, 0.6)', 'rgba(112, 0, 255, 0.6)', 'rgba(0, 255, 200, 0.6)'];
+        particle.style.boxShadow = `0 0 ${size}px ${colors[Math.floor(Math.random() * colors.length)]}`;
+        
+        // Animation
+        const duration = Math.random() * 15 + 10;
+        particle.style.animation = `particle-float ${duration}s linear infinite`;
+        particle.style.animationDelay = `${Math.random() * duration}s`;
+        
+        particleContainer.appendChild(particle);
+      }
+    };
+    
+    createParticles();
+    
+    // Recreate particles on window resize
+    window.addEventListener('resize', createParticles);
+    
+    return () => {
+      window.removeEventListener('resize', createParticles);
+    };
   }, []);
 
   return (
     <section className="relative min-h-screen pt-28 pb-16 overflow-hidden matrix-bg">
+      {/* Particle effect */}
+      <div className="hero-particles absolute inset-0 pointer-events-none"></div>
+      
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900/30 to-gray-800/30 z-0"></div>
       
       {/* Decorative circles */}
-      <div className="absolute top-20 right-0 w-64 h-64 bg-cyber-blue opacity-10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyber-purple opacity-10 rounded-full blur-3xl"></div>
+      <div className="absolute top-20 right-0 w-64 h-64 bg-cyber-blue opacity-10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyber-purple opacity-10 rounded-full blur-3xl animate-pulse animation-delay-300"></div>
       
       <div className="container mx-auto max-w-7xl px-6 md:px-12 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -65,7 +110,7 @@ const Hero = () => {
           
           {/* 3D Model */}
           <div className="w-full lg:w-1/2 mt-10 lg:mt-0">
-            <div className="relative floating">
+            <div className="relative">
               <ThreeDModel type="shield" />
             </div>
           </div>
@@ -74,14 +119,14 @@ const Hero = () => {
       
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-pulse">
-        <p className="text-sm text-gray-400 mb-2">Scroll to explore</p>
+        <p className="text-sm text-gray-400 mb-2 neon-text-green">Scroll to explore</p>
         <svg 
           width="24" 
           height="24" 
           viewBox="0 0 24 24" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="animate-bounce text-cyber-blue"
+          className="animate-bounce text-cyber-green"
         >
           <path 
             d="M12 5V19M12 19L19 12M12 19L5 12" 

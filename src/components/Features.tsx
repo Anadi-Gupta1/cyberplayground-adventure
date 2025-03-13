@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useRef } from 'react';
 import { cn } from "@/lib/utils";
 import ThreeDModel from '@/components/ThreeDModel';
 
 const Features = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  
   // Animation on scroll
   useEffect(() => {
     const fadeElems = document.querySelectorAll('.fade-in-section');
@@ -19,10 +22,46 @@ const Features = () => {
       observer.observe(elem);
     });
     
+    // Mouse move effect for 3D tilt
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      tiltCards.forEach(card => {
+        const rect = (card as HTMLElement).getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        // Only apply effect if mouse is over the card
+        if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+          (card as HTMLElement).style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        } else {
+          (card as HTMLElement).style.transform = '';
+        }
+      });
+    };
+    
+    const handleMouseLeave = () => {
+      tiltCards.forEach(card => {
+        (card as HTMLElement).style.transform = '';
+      });
+    };
+    
+    sectionRef.current?.addEventListener('mousemove', handleMouseMove);
+    sectionRef.current?.addEventListener('mouseleave', handleMouseLeave);
+    
     return () => {
       fadeElems.forEach(elem => {
         observer.unobserve(elem);
       });
+      
+      sectionRef.current?.removeEventListener('mousemove', handleMouseMove);
+      sectionRef.current?.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
   
@@ -32,7 +71,7 @@ const Features = () => {
       color: "red",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 12a5 5 0 0 0 5 5 8 8 0 0 1 5 2a8 8 0 0 1 5-2 5 5 0 0 0 5-5V7H2z"></path>
+          <path d="M2 12a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V7H2z"></path>
           <path d="M6 11V7h12v4"></path>
           <path d="M8 14v-4h8v4"></path>
           <path d="M7 14.5h10"></path>
@@ -104,16 +143,16 @@ const Features = () => {
   ];
   
   return (
-    <section id="features" className="py-24 bg-white relative overflow-hidden">
+    <section id="features" ref={sectionRef} className="py-24 relative overflow-hidden bg-background animated-gradient">
       {/* Background elements */}
-      <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-50 rounded-full opacity-60 blur-3xl"></div>
-      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-50 rounded-full opacity-60 blur-3xl"></div>
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-900/20 rounded-full opacity-60 blur-3xl"></div>
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-900/20 rounded-full opacity-60 blur-3xl"></div>
       
       <div className="container mx-auto max-w-7xl px-6 md:px-12 relative">
         <div className="text-center mb-16 fade-in-section">
           <h2 className="text-base uppercase font-semibold tracking-wide text-cyber-blue">What We Cover</h2>
-          <h3 className="mt-2 text-3xl md:text-4xl font-bold">Explore Every Corner of Cybersecurity</h3>
-          <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
+          <h3 className="mt-2 text-3xl md:text-4xl font-bold text-gradient-blue">Explore Every Corner of Cybersecurity</h3>
+          <p className="mt-4 text-xl text-gray-400 max-w-3xl mx-auto">
             CyberVerse isn't just theory—it's a comprehensive playground for all aspects of security.
           </p>
         </div>
@@ -122,35 +161,35 @@ const Features = () => {
           {securityAreas.map((area, index) => (
             <div 
               key={area.title} 
-              className="fade-in-section bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-100"
+              className="fade-in-section tilt-card bg-gray-900/50 rounded-2xl p-8 shadow-lg transition-all duration-300 border border-gray-800 growing-border"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className={cn(
                 "w-14 h-14 rounded-2xl flex items-center justify-center mb-6",
-                area.color === "red" ? "bg-red-50 text-cyber-red" :
-                area.color === "blue" ? "bg-blue-50 text-cyber-blue" :
-                "bg-purple-50 text-cyber-purple"
+                area.color === "red" ? "bg-cyber-red/10 text-cyber-red" :
+                area.color === "blue" ? "bg-cyber-blue/10 text-cyber-blue" :
+                "bg-cyber-purple/10 text-cyber-purple"
               )}>
                 {area.icon}
               </div>
               <h4 className="text-xl font-bold mb-3">{area.title}</h4>
-              <p className="text-gray-600 leading-relaxed">{area.description}</p>
+              <p className="text-gray-400 leading-relaxed">{area.description}</p>
             </div>
           ))}
         </div>
         
         <div className="mt-20 fade-in-section">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl overflow-hidden shadow-xl">
-            <div className="flex flex-col md:flex-row">
+          <div className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border border-gray-800 card-3d-container">
+            <div className="card-3d flex flex-col md:flex-row">
               <div className="w-full md:w-1/2 p-10 text-white">
-                <h3 className="text-2xl font-bold mb-4">Get Hands-On Experience</h3>
-                <p className="mb-6">
+                <h3 className="text-2xl font-bold mb-4 glitch-text" data-text="Get Hands-On Experience">Get Hands-On Experience</h3>
+                <p className="mb-6 text-gray-300">
                   CyberVerse isn't just about theory—it's a playground for real hacking techniques.
                   Get your hands dirty with our practical workshops and labs.
                 </p>
                 <a 
                   href="#workshops" 
-                  className="inline-flex items-center px-5 py-3 rounded-full bg-white text-blue-600 font-medium transition-all duration-300 hover:shadow-lg"
+                  className="cyber-button inline-flex items-center rounded-full"
                 >
                   View Workshops
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -159,9 +198,9 @@ const Features = () => {
                   </svg>
                 </a>
               </div>
-              <div className="w-full md:w-1/2 bg-white">
+              <div className="w-full md:w-1/2 bg-gray-900/50 backdrop-blur-md">
                 <div className="h-full p-6">
-                  <ThreeDModel type="custom" url="https://prod.spline.design/6k804mHSWxPeHRpJ/scene.splinecode" />
+                  <ThreeDModel type="shield" />
                 </div>
               </div>
             </div>

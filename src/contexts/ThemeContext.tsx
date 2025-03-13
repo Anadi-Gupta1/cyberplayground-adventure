@@ -19,6 +19,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     
     // Save to localStorage for consistency
     localStorage.setItem('theme', theme);
+    
+    // Apply specific styles for the app
+    document.body.classList.add('animated-gradient');
+    
+    // Show console message for developers
+    console.log('CyberVerse - Running in dark mode only');
+    
+    return () => {
+      // Clean up if component unmounts
+      document.body.classList.remove('animated-gradient');
+    };
   }, [theme]);
 
   const toggleTheme = () => {

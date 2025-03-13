@@ -67,6 +67,7 @@ export default {
 					red: '#FF3A5E',
 					blue: '#0090FF',
 					purple: '#7000FF',
+					green: '#00FF7F',
 					black: '#111111',
 					'dark-gray': '#222222',
 					'light-gray': '#F8F8F8',
@@ -122,6 +123,14 @@ export default {
 						boxShadow: '0 0 15px rgba(0, 144, 255, 0.8), 0 0 20px rgba(0, 144, 255, 0.5)' 
 					}
 				},
+				'cyber-glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 5px rgba(0, 255, 128, 0.5), 0 0 10px rgba(0, 255, 128, 0.3)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 15px rgba(0, 255, 128, 0.8), 0 0 30px rgba(0, 255, 128, 0.5)' 
+					}
+				},
 				'text-glow': {
 					'0%, 100%': { 
 						textShadow: '0 0 5px rgba(112, 0, 255, 0.5), 0 0 10px rgba(112, 0, 255, 0.3)' 
@@ -147,6 +156,7 @@ export default {
 				'float': 'float 5s ease-in-out infinite',
 				'pulse': 'pulse 3s ease-in-out infinite',
 				'glow': 'glow 2s ease-in-out infinite',
+				'cyber-glow': 'cyber-glow 2s ease-in-out infinite',
 				'text-glow': 'text-glow 2s ease-in-out infinite',
 				'border-flow': 'border-flow 3s ease infinite'
 			}
