@@ -2,7 +2,7 @@
 import type { Config } from "tailwindcss";
 
 export default {
-	darkMode: ["class"],
+	darkMode: "class",
 	content: [
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
@@ -113,6 +113,27 @@ export default {
 				pulse: {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.8' }
+				},
+				'glow': {
+					'0%, 100%': { 
+						boxShadow: '0 0 5px rgba(0, 144, 255, 0.5), 0 0 10px rgba(0, 144, 255, 0.3)' 
+					},
+					'50%': { 
+						boxShadow: '0 0 15px rgba(0, 144, 255, 0.8), 0 0 20px rgba(0, 144, 255, 0.5)' 
+					}
+				},
+				'text-glow': {
+					'0%, 100%': { 
+						textShadow: '0 0 5px rgba(112, 0, 255, 0.5), 0 0 10px rgba(112, 0, 255, 0.3)' 
+					},
+					'50%': { 
+						textShadow: '0 0 15px rgba(112, 0, 255, 0.8), 0 0 20px rgba(112, 0, 255, 0.5)' 
+					}
+				},
+				'border-flow': {
+					'0%': { backgroundPosition: '0% 50%' },
+					'50%': { backgroundPosition: '100% 50%' },
+					'100%': { backgroundPosition: '0% 50%' }
 				}
 			},
 			animation: {
@@ -124,7 +145,10 @@ export default {
 				'scale-in': 'scale-in 0.3s ease-out forwards',
 				'blur-in': 'blur-in 0.5s ease-out forwards',
 				'float': 'float 5s ease-in-out infinite',
-				'pulse': 'pulse 3s ease-in-out infinite'
+				'pulse': 'pulse 3s ease-in-out infinite',
+				'glow': 'glow 2s ease-in-out infinite',
+				'text-glow': 'text-glow 2s ease-in-out infinite',
+				'border-flow': 'border-flow 3s ease infinite'
 			}
 		}
 	},
