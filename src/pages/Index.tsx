@@ -5,6 +5,7 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import EventsSection from '@/components/EventsSection';
 import ContactSection from '@/components/ContactSection';
+import ParticlesBackground from '@/components/ParticlesBackground';
 import { toast } from '@/components/ui/use-toast';
 
 const Index = () => {
@@ -106,33 +107,6 @@ const Index = () => {
       typingObserver.observe(element);
     });
     
-    // Add interactive hover effects to buttons and links
-    const addHoverEffects = () => {
-      const interactiveElements = document.querySelectorAll('a, button, [role="button"]');
-      
-      interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-          const cursorRing = document.querySelector('.cursor-ring') as HTMLElement;
-          if (cursorRing) {
-            cursorRing.style.width = '50px';
-            cursorRing.style.height = '50px';
-            cursorRing.style.borderColor = '#7000FF';
-          }
-        });
-        
-        element.addEventListener('mouseleave', () => {
-          const cursorRing = document.querySelector('.cursor-ring') as HTMLElement;
-          if (cursorRing) {
-            cursorRing.style.width = '32px';
-            cursorRing.style.height = '32px';
-            cursorRing.style.borderColor = '#0090FF';
-          }
-        });
-      });
-    };
-    
-    addHoverEffects();
-    
     return () => {
       fadeElems.forEach(elem => {
         observer.unobserve(elem);
@@ -182,7 +156,8 @@ const Index = () => {
   };
   
   return (
-    <div ref={pageRef} className="min-h-screen bg-background dark:animated-gradient overflow-x-hidden">
+    <div ref={pageRef} className="min-h-screen bg-background animated-gradient overflow-x-hidden">
+      <ParticlesBackground />
       <Navbar />
       <Hero />
       <Features />
@@ -190,7 +165,7 @@ const Index = () => {
       <ContactSection />
       
       {/* Footer with contact info */}
-      <footer className="border-t dark:border-gray-800 py-8 text-center dark:text-gray-400 text-gray-600">
+      <footer className="border-t border-gray-800 py-8 text-center text-gray-400">
         <div className="container mx-auto max-w-7xl px-6 md:px-12">
           <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <a href="mailto:versec86@gmail.com" className="flex items-center gap-2 hover:text-cyber-blue transition-colors">
@@ -218,7 +193,9 @@ const Index = () => {
             </a>
           </div>
           <div className="mt-4 text-xs">
-            <p>#CyberVerseLNCT | #HackToProtect | #CyberSecForAll | #EthicalChaos</p>
+            <p className="glitch-text" data-text="#CyberVerseLNCT | #HackToProtect | #CyberSecForAll | #EthicalChaos">
+              #CyberVerseLNCT | #HackToProtect | #CyberSecForAll | #EthicalChaos
+            </p>
             <p className="mt-2">© {new Date().getFullYear()} CyberVerse LNCT. All rights reserved.</p>
           </div>
         </div>
@@ -227,7 +204,7 @@ const Index = () => {
       {/* Back to top button */}
       <button 
         onClick={scrollToTop}
-        className="fixed bottom-8 right-8 z-40 p-3 rounded-full dark:bg-gray-800 bg-white shadow-lg hover:shadow-xl transition-all duration-300 border dark:border-gray-700 border-gray-200 dark:text-gray-300 text-gray-600"
+        className="fixed bottom-8 right-8 z-40 p-3 rounded-full bg-gray-800 shadow-lg pulse-glow transition-all duration-300 border border-gray-700 text-gray-300"
         aria-label="Back to top"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

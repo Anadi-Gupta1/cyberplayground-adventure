@@ -1,13 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
-import ThemeToggle from './ThemeToggle';
-import { useTheme } from '@/contexts/ThemeContext';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme } = useTheme();
 
   // Handle scroll event to change navbar style
   useEffect(() => {
@@ -54,7 +51,7 @@ const Navbar = () => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-12",
         scrolled 
-          ? "py-3 dark:bg-gray-900/80 bg-white/80 backdrop-blur-lg shadow-md" 
+          ? "py-3 bg-gray-900/80 backdrop-blur-lg shadow-md" 
           : "py-5 bg-transparent"
       )}
     >
@@ -69,7 +66,7 @@ const Navbar = () => {
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          {navLinks.map((item) => (
+          {navLinks.map((item, index) => (
             <a
               key={item.name}
               href={item.path}
@@ -77,7 +74,8 @@ const Navbar = () => {
                 e.preventDefault();
                 handleNavClick(item.path);
               }}
-              className="font-medium text-sm dark:text-gray-300 text-gray-700 hover:text-cyber-blue dark:hover:text-cyber-blue transition-colors duration-200 animated-underline"
+              className="font-medium text-sm text-gray-300 hover:text-cyber-blue transition-colors duration-200 animated-underline"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {item.name}
             </a>
@@ -88,16 +86,14 @@ const Navbar = () => {
               e.preventDefault();
               handleNavClick('#join');
             }}
-            className="px-5 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-cyber-blue to-cyber-purple hover:shadow-lg hover:shadow-cyber-purple/30 transition-all duration-200"
+            className="cyber-button text-sm font-medium"
           >
             Join Now
           </a>
-          <ThemeToggle />
         </nav>
         
         {/* Mobile menu button */}
-        <div className="md:hidden flex items-center gap-4">
-          <ThemeToggle />
+        <div className="md:hidden flex items-center">
           <button 
             className="flex items-center"
             onClick={toggleMobileMenu}
@@ -105,15 +101,15 @@ const Navbar = () => {
           >
             <div className="w-6 flex flex-col gap-1.5">
               <span className={cn(
-                "block h-0.5 dark:bg-gray-300 bg-gray-800 transition-all duration-300 ease-out",
+                "block h-0.5 bg-gray-300 transition-all duration-300 ease-out",
                 mobileMenuOpen ? "w-6 translate-y-2 rotate-45" : "w-6"
               )}></span>
               <span className={cn(
-                "block h-0.5 dark:bg-gray-300 bg-gray-800 transition-all duration-300 ease-out",
+                "block h-0.5 bg-gray-300 transition-all duration-300 ease-out",
                 mobileMenuOpen ? "opacity-0" : "w-4 opacity-100"
               )}></span>
               <span className={cn(
-                "block h-0.5 dark:bg-gray-300 bg-gray-800 transition-all duration-300 ease-out",
+                "block h-0.5 bg-gray-300 transition-all duration-300 ease-out",
                 mobileMenuOpen ? "w-6 -translate-y-2 -rotate-45" : "w-5"
               )}></span>
             </div>
@@ -123,7 +119,7 @@ const Navbar = () => {
       
       {/* Mobile Navigation */}
       <div className={cn(
-        "absolute top-full left-0 right-0 dark:bg-gray-900/95 bg-white/95 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out origin-top",
+        "absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-lg shadow-lg transition-all duration-300 ease-in-out origin-top",
         mobileMenuOpen 
           ? "opacity-100 scale-y-100 translate-y-0" 
           : "opacity-0 scale-y-0 -translate-y-10 pointer-events-none"
@@ -137,7 +133,7 @@ const Navbar = () => {
                 e.preventDefault();
                 handleNavClick(item.path);
               }}
-              className="py-3 dark:text-gray-300 text-gray-700 hover:text-cyber-blue dark:hover:text-cyber-blue transition-colors duration-200"
+              className="py-3 text-gray-300 hover:text-cyber-blue transition-colors duration-200"
               style={{ animationDelay: `${i * 50}ms` }}
             >
               {item.name}
@@ -149,7 +145,7 @@ const Navbar = () => {
               e.preventDefault();
               handleNavClick('#join');
             }}
-            className="mt-4 px-5 py-3 rounded-full text-center text-white bg-gradient-to-r from-cyber-blue to-cyber-purple"
+            className="mt-4 px-5 py-3 rounded-full text-center text-white bg-gradient-to-r from-cyber-blue to-cyber-purple shimmer"
           >
             Join Now
           </a>

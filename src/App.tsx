@@ -7,27 +7,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import CursorEffect from "./components/CursorEffect";
-import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
-    // Add custom-cursor class to the body when component mounts
-    document.body.classList.add('custom-cursor');
-    
-    // Remove it when component unmounts
-    return () => {
-      document.body.classList.remove('custom-cursor');
-    };
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <TooltipProvider>
-          <CursorEffect />
           <Toaster />
           <Sonner />
           <BrowserRouter>

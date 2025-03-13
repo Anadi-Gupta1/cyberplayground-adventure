@@ -1,40 +1,29 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'dark';  // Only allow dark theme
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
+  toggleTheme: () => void;  // Keeping this for compatibility but it won't change the theme
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    // Check if user has a saved preference
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    
-    // Check if user has system preference for dark mode
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    return savedTheme || (prefersDark ? 'dark' : 'dark'); // Default to dark theme
-  });
+  const [theme] = useState<Theme>('dark');  // Always dark
 
   useEffect(() => {
-    // Update the DOM when theme changes
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // Always add dark class to document
+    document.documentElement.classList.add('dark');
     
-    // Save to localStorage
+    // Save to localStorage for consistency
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    // This function is kept for compatibility but does nothing
+    console.log('Theme toggle attempted, but site is dark-mode only');
   };
 
   return (
